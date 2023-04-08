@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { tasksRouter } from './src/questions/questions.router';
+import { questionsRouter } from './src/questions/questions.router';
 
 const app: Express = express();
 dotenv.config();
@@ -41,4 +41,4 @@ AppDataSource.initialize()
     );
   });
 
-app.use('/', tasksRouter);
+app.use('/', questionsRouter);
