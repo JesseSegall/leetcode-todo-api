@@ -43,3 +43,24 @@ export const createValidator: ValidationChain[] = [
       'Status can only be completed, Needs Review, or ToDo,',
     ),
 ];
+
+export const updateValidator = [
+  body('id')
+    .not()
+    .isEmpty()
+    .withMessage('Task ID is needed.')
+    .trim()
+    .isString()
+    .withMessage('ID needs to be in valid UUID format.'),
+
+  body('status')
+    .trim()
+    .isIn([
+      Status.completed,
+      Status.needsReview,
+      Status.todo,
+    ])
+    .withMessage(
+      'Status can only be completed, Needs Review, or ToDo,',
+    ),
+];
