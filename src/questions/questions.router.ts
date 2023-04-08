@@ -1,14 +1,18 @@
-import { Router, Request, Response } from 'express';
-import { QuestionsController } from './questions.controller';
+import { Router } from 'express';
+import { questionController } from './questions.controller';
+import { createValidator } from './questions.validator';
 // Fire router func to create new router
 
-export const tasksRouter: Router = Router();
-
-tasksRouter.get(
+export const questionsRouter: Router = Router();
+// Do not need to invoke getAll function
+//TODO
+questionsRouter.get(
   '/questions',
-  async (req: Request, res: Response) => {
-    const questionController = new QuestionsController();
-    const allQuestions = await questionController.getAll();
-    res.json(allQuestions).status(200);
-  },
+  questionController.getAll,
+);
+
+questionsRouter.post(
+  '/questions',
+  createValidator,
+  questionController.create,
 );
