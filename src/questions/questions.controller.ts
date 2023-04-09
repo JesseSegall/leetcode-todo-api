@@ -1,8 +1,12 @@
 import { AppDataSource } from '../..';
 import { Question } from './questions.entity';
-import { instanceToPlain } from 'class-transformer';
+import {
+  instanceToPlain,
+  plainToInstance,
+} from 'class-transformer';
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator/src/validation-result';
+import { UpdateQueryBuilder, UpdateResult } from 'typeorm';
 
 class QuestionsController {
   // Method for Get route
@@ -76,6 +80,67 @@ class QuestionsController {
       return res
         .status(400)
         .json({ errors: errors.array() });
+    }
+  }
+  //Method for updating questions
+
+  public async update(
+    req: Request,
+    res: Response,
+  ): Promise<Response> {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ errors: errors.array() });
+    }
+
+    //Find question in DB
+    let question: Question | null;
+
+    try {
+      question = await AppDataSource.getRepository(
+        Question,
+      ).findOne({
+        where: { id: req.body.id },
+      });
+    } catch (error) {
+      return res
+        .json({ error: 'Internal Server Error' })
+        .status(500);
+    }
+
+    //Return 400 if not in DB
+    if (!question) {
+      return res.status(404).json({
+        error:
+          'The question does not exist the in the database.',
+      });
+    }
+    //Declare var for updatedQuestion
+    let updatedQuestion: UpdateResult;
+    //Update Question
+
+    try {
+      updatedQuestion = await AppDataSource.getRepository(
+        Question,
+      ).update(
+        req.body.id,
+        plainToInstance(Question, {
+          status: req.body.status,
+        }),
+      );
+      //Convert updatedQuestion instance to obj
+      updatedQuestion = instanceToPlain(
+        updatedQuestion,
+      ) as UpdateResult;
+
+      return res.json(updatedQuestion).status(200);
+    } catch (error) {
+      return res
+        .json({ error: 'Internal Server Error' })
+        .status(500);
     }
   }
 }

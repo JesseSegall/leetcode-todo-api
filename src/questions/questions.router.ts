@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import { questionController } from './questions.controller';
-import { createValidator } from './questions.validator';
+import {
+  createValidator,
+  updateValidator,
+} from './questions.validator';
 // Fire router func to create new router
 
 export const questionsRouter: Router = Router();
@@ -15,4 +18,10 @@ questionsRouter.post(
   '/questions',
   createValidator,
   questionController.create,
+);
+
+questionsRouter.put(
+  '/questions',
+  updateValidator,
+  questionController.update,
 );
