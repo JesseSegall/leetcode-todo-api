@@ -6,7 +6,7 @@ import {
 } from 'class-transformer';
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator/src/validation-result';
-import { UpdateQueryBuilder, UpdateResult } from 'typeorm';
+import { UpdateResult } from 'typeorm';
 
 class QuestionsController {
   // Method for Get route
@@ -14,7 +14,7 @@ class QuestionsController {
     req: Request,
     res: Response,
   ): Promise<Response> {
-    //Declare variable to hold all questions
+    // variable to hold all questions
     let allQuestions: Question[];
     //Fetch all tasks using repo
     try {
@@ -145,4 +145,5 @@ class QuestionsController {
   }
 }
 
+// Export instance of the class; don't new to create new instance each time in Q router
 export const questionController = new QuestionsController();

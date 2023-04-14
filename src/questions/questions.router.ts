@@ -7,7 +7,7 @@ import {
 // Fire router func to create new router
 
 export const questionsRouter: Router = Router();
-// Do not need to invoke getAll function
+// Do not need to invoke getAll function as soon as router endpoint is accessed the .getAll function will fire
 //TODO
 questionsRouter.get(
   '/questions',

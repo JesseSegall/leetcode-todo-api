@@ -2,6 +2,7 @@ import { Status } from './../enums/status';
 import { body, ValidationChain } from 'express-validator';
 import { Difficulty } from '../enums/difficulty';
 
+// ValidationChain interface gives us type to use
 export const createValidator: ValidationChain[] = [
   body('title')
     .not()
@@ -34,11 +35,7 @@ export const createValidator: ValidationChain[] = [
 
   body('status')
     .trim()
-    .isIn([
-      Status.completed,
-      Status.needsReview,
-      Status.todo,
-    ])
+    .isIn([Status.completed, Status.review, Status.todo])
     .withMessage(
       'Status can only be completed, Needs Review, or ToDo,',
     ),
@@ -55,11 +52,7 @@ export const updateValidator = [
 
   body('status')
     .trim()
-    .isIn([
-      Status.completed,
-      Status.needsReview,
-      Status.todo,
-    ])
+    .isIn([Status.completed, Status.review, Status.todo])
     .withMessage(
       'Status can only be completed, Needs Review, or ToDo,',
     ),
