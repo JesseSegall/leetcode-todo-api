@@ -145,5 +145,5 @@ class QuestionsController {
   }
 }
 
-// Export instance of the class; don't new to create new instance each time in Q router
+// Export instance of the class; don't need to create new instance each time in Q router
 export const questionController = new QuestionsController();
