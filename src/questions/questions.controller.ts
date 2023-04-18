@@ -96,7 +96,7 @@ class QuestionsController {
         .json({ errors: errors.array() });
     }
 
-    //Find question in DB
+    //Find question in DB union type because might not be in DB
     let question: Question | null;
 
     try {
